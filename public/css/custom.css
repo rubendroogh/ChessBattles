@@ -1,0 +1,25 @@
+.main-board-wrap .cg-board-wrap {
+    width: 600px !important;
+    height: 600px !important;
+    position: relative !important;
+    display: block !important;
+}
+  
+.home-boards .cg-board-wrap {
+    width: 180px !important;
+    height: 180px !important;
+    position: relative !important;
+    display: block !important;
+}
+
+.home-boards-wrap {
+    width: calc((180px * 4) + 2rem + (4 * 2rem));
+}
+
+.home-board p {
+    color: black;
+}
+
+.home-board:hover {
+    background-color: rgb(245, 245, 245);
+}
