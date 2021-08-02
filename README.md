@@ -9,6 +9,8 @@
 
 ## TODO
 
+- Uitdenken hoe de moves verstuurd worden
+- Endpoints werkend krijgen
+- Secret gebruiken (authentication)
 - Teruggeven wanneer het potje voorbij is
-
-
+- Random ID gebruiken IPV ascending
