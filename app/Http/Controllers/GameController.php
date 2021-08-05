@@ -31,6 +31,7 @@ class GameController extends BaseController
         $game->playerwhite = $request->input('playerwhite');
         $game->playerblack = $request->input('playerblack');
         $game->gamestatefen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'; // FEN notation of the starting position
+        $game->possiblemoves = '{["a3", "a4", "b3", "b4", "c3", "c4", "d3", "d4", "e3", "e4", "f3", "f4", "g3", "g4", "h3", "h4", "Na3", "Nc3", "Nf3", "Nh3"]}'; // Possible moves in a starting position
         $game->save();
 
         return redirect()->route('game', ['id' => $game->id]);
@@ -45,7 +46,8 @@ class GameController extends BaseController
     public function move($id, Request $request)
     {
         $game = Game::where('id', $id)->first();
+        $possiblemovesjson = json_decode($game->possiblemoves, true);
         
-        dd($game);
+        return response()->json(['success' => '1', 'currentposition' => $game->gamestatefen, 'possiblemoves' => $possiblemovesjson]);
     }
 }
