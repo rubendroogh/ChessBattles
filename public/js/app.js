@@ -1893,9 +1893,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
-    },
-    logshit: function logshit() {
-      console.log('lololol');
     }
   },
   mounted: function mounted() {
@@ -1906,7 +1903,7 @@ __webpack_require__.r(__webpack_exports__);
           after: this.userPlay()
         }
       }
-    });
+    }); // save possible moves
   }
 });
 

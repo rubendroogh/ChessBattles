@@ -35,9 +35,6 @@
                         events: { after: this.userPlay()},
                     }
                 });
-            },
-            logshit(){
-                console.log('lololol');
             }
         },
         mounted() {
@@ -45,6 +42,7 @@
                 fen: this.$props.fen,
                 movable: { events: { after: this.userPlay()} },
             })
+            // save possible moves
         }
     }
 </script>

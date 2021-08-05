@@ -2,18 +2,6 @@
 
 @section('content')
     <div class="flex justify-content-center align-items-center" style="height: 100vh">
-        <div class="home-boards-wrap p-3 shadow-sm" style="background: white;">
-            <h2 class="mt-2">Current games</h2>
-            <hr>
-            <div class="home-boards flex flex-row flex-wrap" id="boards">
-                @foreach ($games as $game)
-                <a class="home-board" href="/game/{{ $game->id }}">
-                    <chessboard class="mx-3 mt-3 mb-0" fen="{{ $game->gamestatefen }}"></chessboard>
-                    <p class="text-center p-0 m-0">{{ $game->playerwhite }} vs {{ $game->playerblack }}</p>
-                </a>
-                @endforeach
-            </div>
-        </div>
         <div class="p-3 shadow-sm ml-3" style="background: white;">
             <h2>Battle your own AIs!</h2>
             <hr>
