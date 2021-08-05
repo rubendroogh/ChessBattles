@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Pusher\Pusher;
+
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -45,9 +47,31 @@ class GameController extends BaseController
 
     public function move($id, Request $request)
     {
+        $pusher = $this->get_pusher_object();
         $game = Game::where('id', $id)->first();
         $possiblemovesjson = json_decode($game->possiblemoves, true);
+
+        $move = $request->move;
+        $event = 'game-move-'.$game->id;
+        
+        $pusher->trigger('gamemoves', $event, $move);
         
         return response()->json(['success' => '1', 'currentposition' => $game->gamestatefen, 'possiblemoves' => $possiblemovesjson]);
+    }
+
+    public function get_pusher_object(){
+        $options = array(
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        return $pusher;
     }
 }

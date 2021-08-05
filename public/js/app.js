@@ -1850,7 +1850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'AiChessboard',
   "extends": vue_chessboard__WEBPACK_IMPORTED_MODULE_0__.chessboard,
-  props: ['fen'],
+  props: ['fen', 'gameid'],
   methods: {
     userPlay: function userPlay() {
       var _this = this;
@@ -1877,10 +1877,17 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     aiNextMove: function aiNextMove() {
+      var move = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var moves = this.game.moves({
         verbose: true
       });
       var randomMove = moves[Math.floor(Math.random() * moves.length)];
+
+      if (move != null) {
+        randomMove = move;
+        console.log('else');
+      }
+
       this.game.move(randomMove);
       this.board.set({
         fen: this.game.fen(),
@@ -1896,6 +1903,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.board.set({
       fen: this.$props.fen,
       movable: {
@@ -1903,7 +1912,14 @@ __webpack_require__.r(__webpack_exports__);
           after: this.userPlay()
         }
       }
-    }); // save possible moves
+    });
+    var pusher = new Pusher('acf070fe0cc61af3c367', {
+      cluster: 'eu'
+    });
+    var channel = pusher.subscribe('gamemoves');
+    channel.bind('game-move-' + this.gameid, function (data) {
+      _this2.aiNextMove(data);
+    });
   }
 });
 
@@ -1938,12 +1954,6 @@ var files = __webpack_require__("./resources/js sync recursive \\.vue$/");
 
 files.keys().map(function (key) {
   return Vue.component(key.split('/').pop().split('.')[0], files(key)["default"]);
-});
-var boards = new Vue({
-  el: '#boards',
-  components: {
-    chessboard: vue_chessboard__WEBPACK_IMPORTED_MODULE_0__.chessboard
-  }
 });
 var app = new Vue({
   el: '#app',

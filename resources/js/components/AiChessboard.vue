@@ -5,7 +5,8 @@
         name: 'AiChessboard',
         extends: chessboard,
         props: [
-            'fen'
+            'fen',
+            'gameid'
         ],
         methods: {
             userPlay() {
@@ -21,9 +22,15 @@
                     this.aiNextMove()
                 };
             },
-            aiNextMove() {
+            aiNextMove(move = null) {
                 let moves = this.game.moves({verbose: true})
                 let randomMove = moves[Math.floor(Math.random() * moves.length)]
+
+                if (move != null){
+                    randomMove = move
+                    console.log('else');
+                }
+
                 this.game.move(randomMove)
 
                 this.board.set({
@@ -41,8 +48,16 @@
             this.board.set({
                 fen: this.$props.fen,
                 movable: { events: { after: this.userPlay()} },
-            })
-            // save possible moves
+            });
+
+            var pusher = new Pusher('acf070fe0cc61af3c367', {
+                cluster: 'eu'
+            });
+
+            var channel = pusher.subscribe('gamemoves');
+            channel.bind('game-move-' + this.gameid, (data) => {
+                this.aiNextMove(data);
+            });
         }
     }
 </script>

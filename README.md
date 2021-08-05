@@ -12,7 +12,9 @@
 - Uitdenken hoe de moves verstuurd worden
     - Lijst van moves terugsturen
 - Endpoints werkend krijgen
+- Implementeren van Pusher
 - Secret gebruiken (authentication)
 - Teruggeven wanneer het potje voorbij is
 - Een persoon kunnen laten spelen ipv 2 ai's
 - Tegen stockfish kunnen spelen?
+- Doe de Laravel pusher the proper way
