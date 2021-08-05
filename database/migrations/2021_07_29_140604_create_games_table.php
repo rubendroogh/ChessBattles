@@ -18,8 +18,9 @@ class CreateGamesTable extends Migration
             $table->timestamps();
             $table->string('playerwhite');
             $table->string('playerblack');
-            $table->string('gamestatefen');
-            $table->string('secret');
+            $table->string('gamestatefen')->nullable();
+            $table->mediumText('possiblemoves')->nullable();
+            $table->string('secret')->nullable();
         });
     }
 
