@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/move/{id}', [GameController::class, 'move']);
+Route::post('/move/{id}', [GameController::class, 'move']);

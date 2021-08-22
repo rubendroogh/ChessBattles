@@ -12,6 +12,9 @@
                 </div>
                 <h3>{{ $game->playerblack }}</h3>
             </div>
+            <hr>
+            <small>White secret: {{ $game->secretwhite }}</small>
+            <small>Black secret: {{ $game->secretblack }}</small>
         </div>
     </div>
 

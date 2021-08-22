@@ -28,7 +28,8 @@
 
                 if (move != null){
                     randomMove = move
-                    console.log('else');
+                    console.log('Move is NOT random.')
+                    console.log(this.toColor())
                 }
 
                 this.game.move(randomMove)
@@ -37,9 +38,7 @@
                     fen: this.game.fen(),
                     turnColor: this.toColor(),
                     movable: {
-                        color: this.toColor(),
                         dests: this.possibleMoves(),
-                        events: { after: this.userPlay()},
                     }
                 });
             }
@@ -47,7 +46,6 @@
         mounted() {
             this.board.set({
                 fen: this.$props.fen,
-                movable: { events: { after: this.userPlay()} },
             });
 
             var pusher = new Pusher('acf070fe0cc61af3c367', {

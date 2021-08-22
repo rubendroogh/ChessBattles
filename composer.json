@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laravelcollective/html": "^6.2",
+        "p-chess/chess": "^0.3.0",
         "pusher/pusher-php-server": "^7.0"
     },
     "require-dev": {

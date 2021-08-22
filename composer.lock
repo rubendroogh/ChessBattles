@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1eb913a26b47b11a26e97d494ceb81d",
+    "content-hash": "48d5d029c577dcb6395870b9873f26b2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2102,6 +2102,71 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
+        },
+        {
+            "name": "p-chess/chess",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/p-chess/chess.git",
+                "reference": "1338c8189d8de635add5ee3b082d7732f2ba79b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/p-chess/chess/zipball/1338c8189d8de635add5ee3b082d7732f2ba79b4",
+                "reference": "1338c8189d8de635add5ee3b082d7732f2ba79b4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "imagine/imagine": "^1.2",
+                "johnkary/phpunit-speedtrap": "^4.0",
+                "phpbench/phpbench": "^1.0",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^8.5 || ^9.5"
+            },
+            "suggest": {
+                "imagine/imagine": "To generate board images."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PChess\\Chess\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ryan hs",
+                    "email": "mr.ryansilalahi@gmail.com"
+                },
+                {
+                    "name": "Arkadiusz Kondas",
+                    "email": "arkadiusz.kondas@gmail.com"
+                },
+                {
+                    "name": "Massimiliano Arione",
+                    "email": "garakkio@gmail.com"
+                }
+            ],
+            "description": "A PHP chess library that is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection",
+            "support": {
+                "issues": "https://github.com/p-chess/chess/issues",
+                "source": "https://github.com/p-chess/chess/tree/0.3.0"
+            },
+            "time": "2021-07-12T08:07:35+00:00"
         },
         {
             "name": "paragonie/random_compat",

@@ -20,7 +20,12 @@ class CreateGamesTable extends Migration
             $table->string('playerblack');
             $table->string('gamestatefen')->nullable();
             $table->mediumText('possiblemoves')->nullable();
-            $table->string('secret')->nullable();
+            $table->string('secretwhite')->nullable();
+            $table->string('secretblack')->nullable();
+            $table->boolean('isactive')->default(false);
+            $table->string('turn')->default('white');
+            $table->boolean('whitestarted')->default(false);
+            $table->boolean('blackstarted')->default(false);
         });
     }
 

@@ -8,13 +8,24 @@
 </p>
 
 ## TODO
-
-- Uitdenken hoe de moves verstuurd worden
-    - Lijst van moves terugsturen
+### MVP
+- X Uitdenken hoe de moves verstuurd worden
+    - X Lijst van moves terugsturen
 - Endpoints werkend krijgen
-- Implementeren van Pusher
+- X Implementeren van Pusher
+- Volledig uitdenken van de cycle
+    - Bot stuurt request
+    - Request komt aan in backend
+    - Wordt via pusher naar frontend gestuurd
+    - ???
+    - Hoe komt de request terug
+    - 
+
+### Should have
 - Secret gebruiken (authentication)
 - Teruggeven wanneer het potje voorbij is
+
+### Could have
 - Een persoon kunnen laten spelen ipv 2 ai's
 - Tegen stockfish kunnen spelen?
 - Doe de Laravel pusher the proper way

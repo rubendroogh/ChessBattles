@@ -1885,7 +1885,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (move != null) {
         randomMove = move;
-        console.log('else');
+        console.log('Move is NOT random.');
+        console.log(this.toColor());
       }
 
       this.game.move(randomMove);
@@ -1893,11 +1894,7 @@ __webpack_require__.r(__webpack_exports__);
         fen: this.game.fen(),
         turnColor: this.toColor(),
         movable: {
-          color: this.toColor(),
-          dests: this.possibleMoves(),
-          events: {
-            after: this.userPlay()
-          }
+          dests: this.possibleMoves()
         }
       });
     }
@@ -1906,12 +1903,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this2 = this;
 
     this.board.set({
-      fen: this.$props.fen,
-      movable: {
-        events: {
-          after: this.userPlay()
-        }
-      }
+      fen: this.$props.fen
     });
     var pusher = new Pusher('acf070fe0cc61af3c367', {
       cluster: 'eu'
