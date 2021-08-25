@@ -16,7 +16,8 @@ use App\Http\Controllers\GameController;
 
 Route::get('/', [GameController::class, 'home'])->name('home');
 
-Route::get('/newgame', [GameController::class, 'createForm']);
+Route::get('/newgame', [GameController::class, 'createForm'])->name('createGameForm');
 Route::post('/newgame', [GameController::class, 'create'])->name('createGame');
 
 Route::get('/game/{id}', [GameController::class, 'game'])->name('game');
+Route::get('/game/{id}/reset', [GameController::class, 'reset'])->name('resetGame');

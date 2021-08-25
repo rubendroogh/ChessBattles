@@ -49,6 +49,19 @@ class GameController extends BaseController
         return view('board', ['game' => $game]);
     }
 
+    public function reset($id)
+    {
+        $game = Game::where('id', $id)->first();
+        $game->gamestatefen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // FEN notation of the starting position plus setup
+        $game->possiblemoves = '{["a3", "a4", "b3", "b4", "c3", "c4", "d3", "d4", "e3", "e4", "f3", "f4", "g3", "g4", "h3", "h4", "Na3", "Nc3", "Nf3", "Nh3"]}'; // Possible moves in a starting position
+        $game->whitestarted = false;
+        $game->blackstarted = false;
+        $game->isActive = false;
+        $game->save();
+
+        return redirect()->route('game', ['id' => $game->id]);
+    }
+
     public function move($id, Request $request)
     {
         $pusher = $this->get_pusher_object();
@@ -59,13 +72,16 @@ class GameController extends BaseController
         if ($color == false) {
             return response()->json([
                 'success' => '0',
-                'reason' => 'Secret incorrect.'
+                'reason' => 'SecretIncorrect'
             ]);
         }
-        elseif ($color = 'white') {
+
+        $gameSimulated = new Chess($game->gamestatefen);
+
+        if ($color == 'white') {
             $game->whitestarted = true;
         }
-        elseif ($color = 'black') {
+        if ($color == 'black') {
             $game->blackstarted = true;
         }
 
@@ -73,22 +89,31 @@ class GameController extends BaseController
             $game->isactive = true;
         }
 
+        $game->save();
+
+        if (($color == 'white' && $gameSimulated->turn != 'w') || ($color == 'black' && $gameSimulated->turn != 'b'))
+        {
+            return response()->json([
+                'success' => '0',
+                'reason' => 'NotYourTurn',
+                'isActive' => '0'
+            ]);
+        }
+
         if ($game->isactive == false) {
             return response()->json([
                 'success' => '0',
-                'reason' => 'Game hasn\'t started yet.',
-                'isActive' => '0'
+                'reason' => 'GameNotStarted',
+                'isActive' => '0',
+                'whiteActive' => $game->whitestarted == true ? '1' : '0',
+                'blackActive' => $game->blackstarted == true ? '1' : '0'
             ]);
         }
 
         $move = $request->move;
         $event = 'game-move-'.$game->id;
-        
         $pusher->trigger('gamemoves', $event, $move);
 
-        $prevPosition = $game->gamestatefen;
-
-        $gameSimulated = new Chess($game->gamestatefen);
         $gameSimulated->move($request->move);
         $possibleMoves = array_map(fn($move) => $move->san, $gameSimulated->moves());
         $game->gamestatefen = $gameSimulated->fen();
@@ -96,10 +121,9 @@ class GameController extends BaseController
         
         return response()->json([
             'success' => '1',
-            'prevPosition' => $prevPosition,
             'currentPosition' => $game->gamestatefen,
             'possibleMoves' => $possibleMoves,
-            'color' => $color,
+            'color' => $gameSimulated->turn,
             'isActive' => '1'
         ]);
     }

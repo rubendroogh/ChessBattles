@@ -1,13 +1,14 @@
 require(['./chess.js'], function (Chess) {
-    var secret = '9xr!NW2YUFcz4PVA';
+    var secret = 'hMbv!zO&2FwB39D5';
     var endpoint = 'http://127.0.0.1:8000/api/move/1?';
     var globalSum = 0;
-    var color = 'b';
+    var color = 'w';
     var game = new Chess();
-    var initial_depth = 0;
+    var initial_depth = 2;
+    var delay = 50;
 
     function defineEvents() {
-        document.getElementById("activatebot").addEventListener("click", _ => {doRequest('d3')});
+        document.getElementById("activatebot").addEventListener("click", _ => {doRequest()});
         console.log('Events defined!');
     }
 
@@ -26,18 +27,30 @@ require(['./chess.js'], function (Chess) {
         })
         .then(response => response.json())
         .then(responseJSON => {
-            console.log(responseJSON);
-            setTimeout(function () {
-                doRequest(doMove(responseJSON));
-            }, 500);
+            if (responseJSON.success == 1 && responseJSON.color == 'w'){
+                setTimeout(function () {
+                    doRequest(doMove(responseJSON));
+                }, delay);
+            }
+            else {
+                if (responseJSON.reason == 'NotYourTurn'){
+                    console.log('Not your turn');
+                }
+                if (responseJSON.reason == 'GameNotStarted'){
+                    console.log('Not active yet');
+                }
+                setTimeout(function () {
+                    doRequest();
+                }, delay);
+            }
         });
     }
 
     function doMove(gameState) {
         game.load(gameState.currentPosition);
         var move = makeBestMove(gameState.color);
-        console.log(move);
-        return '';
+        console.log('Move: ' + move.san);
+        return move.san;
     }
 
     /* 
@@ -139,7 +152,6 @@ require(['./chess.js'], function (Chess) {
     */
     function evaluateBoard(move, prevSum, color) 
     {
-        console.log(move);
         var from = [8 - parseInt(move.from[1]), move.from.charCodeAt(0) - 'a'.charCodeAt(0)];
         var to = [8 - parseInt(move.to[1]), move.to.charCodeAt(0) - 'a'.charCodeAt(0)];
 
@@ -329,37 +341,37 @@ require(['./chess.js'], function (Chess) {
         }
 
         globalSum = evaluateBoard(move, globalSum, 'b');
-        updateAdvantage();
 
         game.move(move);
-        board.position(game.fen());
+        return move;
+        //board.position(game.fen());
 
-        if (color === 'b')
-        {
-            checkStatus('black');
+        // if (color === 'b')
+        // {
+        //     checkStatus('black');
 
-            // Highlight black move
-            $board.find('.' + squareClass).removeClass('highlight-black')
-            $board.find('.square-' + move.from).addClass('highlight-black')
-            squareToHighlight = move.to
-            colorToHighlight = 'black'
+        //     // Highlight black move
+        //     $board.find('.' + squareClass).removeClass('highlight-black')
+        //     $board.find('.square-' + move.from).addClass('highlight-black')
+        //     squareToHighlight = move.to
+        //     colorToHighlight = 'black'
 
-            $board.find('.square-' + squareToHighlight)
-            .addClass('highlight-' + colorToHighlight)
-        }
-        else
-        {
-            checkStatus('white');
+        //     $board.find('.square-' + squareToHighlight)
+        //     .addClass('highlight-' + colorToHighlight)
+        // }
+        // else
+        // {
+        //     checkStatus('white');
 
-            // Highlight white move
-            $board.find('.' + squareClass).removeClass('highlight-white')
-            $board.find('.square-' + move.from).addClass('highlight-white')
-            squareToHighlight = move.to
-            colorToHighlight = 'white'
+        //     // Highlight white move
+        //     $board.find('.' + squareClass).removeClass('highlight-white')
+        //     $board.find('.square-' + move.from).addClass('highlight-white')
+        //     squareToHighlight = move.to
+        //     colorToHighlight = 'white'
 
-            $board.find('.square-' + squareToHighlight)
-            .addClass('highlight-' + colorToHighlight)
-        }
+        //     $board.find('.square-' + squareToHighlight)
+        //     .addClass('highlight-' + colorToHighlight)
+        // }
     }
 
     defineEvents();
